@@ -1,0 +1,4 @@
+name db = smart_garage
+
+username = smart_garage
+password = 12345678
