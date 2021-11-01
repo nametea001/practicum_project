@@ -2,7 +2,7 @@ from typing import Optional
 from fastapi import FastAPI
 from pydantic import BaseModel
 import uvicorn
-from action import check_login, get_garage, update_garage_action, check_garage
+from action import check_login, get_garage, update_garage_action, check_garage, open_garage, close_garage
 
 
 app = FastAPI()
@@ -40,6 +40,27 @@ def api_check_garage(garageId):
     else:
         return {"garages": "Null", "error": True}
 
+@app.get("/api/open_garage/{garageId}")
+def api_open_garage(garageId):
+    open_garage(garageId)
+    # data = check_garage(garageId)
+    # if data:
+    #     return {"garages": data, "error": False}
+    # else:
+    #     return {"garages": "Null", "error": True}
+    return {"garages": "GG", "error": False}
+
+@app.get("/api/close_garage/{garageId}")
+def api_open_garage(garageId):
+    close_garage(garageId)
+    # data = check_garage(garageId)
+    # if data:
+    #     return {"garages": data, "error": False}
+    # else:
+    #     return {"garages": "Null", "error": True}
+    return {"garages": "GG", "error": False}
+
+
 @app.post("/api/update_garage")
 def api_update_garage(garageId, status):
     data = update_garage_action(garageId, status)
@@ -48,8 +69,7 @@ def api_update_garage(garageId, status):
     else:
         return {"garages": "Null", "error": True}
 
-
  
 if __name__ == '__main__':
-    uvicorn.run(app, host='192.168.31.212', port=8000 )
+    uvicorn.run(app, host='127.0.0.1', port=8000 )
 

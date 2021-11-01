@@ -1,5 +1,8 @@
 from sql import login_user, get_garage_from_userid,get_garage_from_id, update_garage 
 
+from practicum import find_mcu_boards, McuBoard, PeriBoard
+
+
 # ------------------ get data ------------------------------
 
 def check_login(user):
@@ -23,10 +26,32 @@ def update_garage_action(garageId, status):
 # ---------------------- check scan -----------
 def check_garage(garageId):
     data = get_garage_from_id(garageId)
-    if(data[0]['status'] == "OCCUPIED" and data[0]['user_id'] != "0"):
+    if(data[0]['status'] == "OCCUPIED"):
         return None
     else:
         return data
 
+
+# -------------- Open garage -----------------
+def open_garage(garageId):
+    if(garageId == "1"):
+        peri.set_servo_1_open()
+        return 0
+    elif(garageId == "2"):
+        peri.set_servo_2_open()
+        return 0
+# ------------- Close garage -----------
+def close_garage(garageId):
+    if(garageId == "1"):
+        peri.set_servo_1_close()
+        return 0
+    elif(garageId == "2"):
+        peri.set_servo_2_close()
+        return 0
+
+
+devices = find_mcu_boards()
+mcu = McuBoard(devices[0])
+peri = PeriBoard(mcu)
 
 

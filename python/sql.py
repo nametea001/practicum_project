@@ -5,8 +5,8 @@ import datetime
 def connext_db():
   mydb = mysql.connector.connect(
     host="localhost",
-    user="smart_garage",
-    password="12345678",
+    user="root",
+    password="",
     database="smart_garage"
   )
   return mydb
