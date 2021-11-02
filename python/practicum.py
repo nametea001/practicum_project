@@ -7,6 +7,8 @@ RQ_SET_SERVO_1_OPEN = 0
 RQ_SET_SERVO_1_CLOSE = 1
 RQ_SET_SERVO_2_OPEN = 2
 RQ_SET_SERVO_2_CLOSE = 3
+RQ_SET_READ_ULTRA_1 = 4
+RQ_SET_READ_ULTRA_2 = 5
 
 
 def find_mcu_boards():
@@ -87,3 +89,11 @@ class PeriBoard:
     def set_servo_2_close(self):
         self.mcu.usb_write(RQ_SET_SERVO_2_CLOSE)
         return 0
+
+    def read_distance_1(self):
+        value = self.mcu.usb_read(RQ_SET_READ_ULTRA_1)
+        return value[0]
+
+    def read_distance_2(self):
+        value = self.mcu.usb_read(RQ_SET_READ_ULTRA_2)
+        return value[0]
