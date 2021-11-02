@@ -42,83 +42,23 @@ class _MainScreenState extends State<MainScreen> {
     for (var garage in garages) {
       i++;
       var l = ListTile(
-        title: Text(garage.name!),
-        tileColor: listColor(i),
-        subtitle: Column(
-          children: [
-            Row(
-              children: [
-                Text("${garage.status!}"),
-              ],
-            ),
-            Row(
-              children: [
-                Text(dateAndTime(garage.dateTime)),
-              ],
-            ),
-          ],
-        ),
-        // onTap: () {
-        //   showDialog(
-        //     context: context,
-        //     builder: (BuildContext context) => AlertDialog(
-        //       title: Text('Details'),
-        //       backgroundColor: Colors.white,
-        //       content: SizedBox(
-        //         width: 400.0,
-        //         height: 100.0,
-        //         child: Column(
-        //           children: [
-        //             Row(
-        //               children: [
-        //                 Flexible(
-        //                   child: Text(
-        //                     "${garage.customerName}",
-        //                     style: TextStyle(
-        //                       fontSize: 16.0,
-        //                     ),
-        //                   ),
-        //                 )
-        //               ],
-        //             ),
-        //             Row(
-        //               children: [
-        //                 Text(
-        //                   "Tel No: ${customer.telNo} ",
-        //                   style: TextStyle(
-        //                     fontSize: 14.0,
-        //                   ),
-        //                 )
-        //               ],
-        //             ),
-        //             Row(
-        //               children: [
-        //                 Text(
-        //                   "Address: ${customer.address} ",
-        //                   style: TextStyle(
-        //                     fontSize: 14.0,
-        //                   ),
-        //                 ),
-        //               ],
-        //             ),
-        //           ],
-        //         ),
-        //       ),
-        //       actions: <Widget>[
-        //         TextButton(
-        //             child: Text('Close'),
-        //             style: TextButton.styleFrom(
-        //               primary: Colors.white,
-        //               backgroundColor: Colors.blueGrey,
-        //             ),
-        //             onPressed: () {
-        //               Navigator.pop(context);
-        //             }),
-        //       ],
-        //     ),
-        //   );
-        // },
-      );
+          title: Text(garage.name!),
+          tileColor: listColor(i),
+          subtitle: Column(
+            children: [
+              Row(
+                children: [
+                  Text("${garage.status!}"),
+                ],
+              ),
+              Row(
+                children: [
+                  Text(dateAndTime(garage.dateTime)),
+                ],
+              ),
+            ],
+          ),
+          onTap: () {});
       list.add(l);
     }
     return list;
@@ -137,12 +77,17 @@ class _MainScreenState extends State<MainScreen> {
       appBar: AppBar(
         title: Text("Garage"),
         backgroundColor: Colors.orange,
-        // actions: [
-        //   IconButton(
-        //     icon: Icon(Icons.camera_alt_outlined),
-        //     onPressed: () {},
-        //   )
-        // ],
+        actions: [
+          IconButton(
+            icon: Icon(Icons.camera_alt_outlined),
+            onPressed: () async {
+              // var result = await BarcodeScanner.scan();
+              // if (result.rawContent == "SMART_GARAGE_1") {
+              //   print("GG");
+              // }
+            },
+          )
+        ],
       ),
       body: Container(
         child: Column(
@@ -150,13 +95,7 @@ class _MainScreenState extends State<MainScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                IconButton(
-                    onPressed: () async {
-                      var result = await BarcodeScanner.scan();
-                    },
-                    icon: Icon(Icons.garage_sharp,
-                        size: 140.0, color: Colors.orange)),
-                Icon(null)
+                Icon(Icons.garage_sharp, size: 140.0, color: Colors.orange),
               ],
             ),
             Expanded(
