@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:smart_garage_app/models/garage.dart';
 import 'package:smart_garage_app/models/user.dart';
-import 'package:barcode_scan2/barcode_scan2.dart';
+
+import 'package:smart_garage_app/screens/detail_screen.dart';
 
 class MainScreen extends StatefulWidget {
   final User? user;
@@ -58,7 +59,16 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ],
           ),
-          onTap: () {});
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => DetailScreen(
+                          user: user,
+                          garageId: garage.id,
+                          garageName: garage.name,
+                        )));
+          });
       list.add(l);
     }
     return list;

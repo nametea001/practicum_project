@@ -33,6 +33,10 @@ def check_garage(garageId):
     else:
         return data
 
+# ---------------------- check scan -----------
+def get_garage_from_id_action(garageId):
+    data = get_garage_from_id(garageId)
+    return data
 
 # -------------- Open garage -----------------
 def open_garage(garageId):

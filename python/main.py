@@ -2,7 +2,7 @@ from typing import Optional
 from fastapi import FastAPI
 from pydantic import BaseModel
 import uvicorn
-from action import check_login, get_garage, update_garage_action, check_garage, open_garage, close_garage
+from action import check_login, get_garage, update_garage_action, check_garage, get_garage, get_garage_from_id_action,open_garage, close_garage
 
 
 app = FastAPI()
@@ -32,7 +32,7 @@ def api_garage_from_user_id(user_id):
     else:
         return {"garages": "Null", "error": True}
 
-@app.get("/api/check_garage/{garageId}")
+@app.get("/api/check_garage")
 def api_check_garage(garageId):
     data = check_garage(garageId)
     if data:
@@ -40,25 +40,21 @@ def api_check_garage(garageId):
     else:
         return {"garages": "Null", "error": True}
 
-@app.get("/api/open_garage/{garageId}")
-def api_open_garage(garageId):
+@app.get("/api/open_garage")
+def api_open_garage(garageId):  
     open_garage(garageId)
-    # data = check_garage(garageId)
-    # if data:
-    #     return {"garages": data, "error": False}
-    # else:
-    #     return {"garages": "Null", "error": True}
-    return {"garages": "GG", "error": False}
+    data = get_garage_from_id_action(garageId)
+     
+    return {"garages": data, "error": False}
+    
+   
 
-@app.get("/api/close_garage/{garageId}")
+@app.get("/api/close_garage")
 def api_open_garage(garageId):
     close_garage(garageId)
-    # data = check_garage(garageId)
-    # if data:
-    #     return {"garages": data, "error": False}
-    # else:
-    #     return {"garages": "Null", "error": True}
-    return {"garages": "GG", "error": False}
+    data = get_garage_from_id_action(garageId)
+   
+    return {"garages": data, "error": False}
 
 
 @app.post("/api/update_garage")

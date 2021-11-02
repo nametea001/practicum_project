@@ -39,4 +39,48 @@ class Garage {
     }
     return null;
   }
+
+  static Future<List<Garage>?> openGarage(int garageId) async {
+    NetworkHelper networkHelper = NetworkHelper('/api/open_garage', {
+      'garageId': garageId.toString(),
+    });
+    List<Garage> garages = [];
+    var json = await networkHelper.getData();
+    if (json != null && json['error'] == false) {
+      for (Map g in json['garages']) {
+        Garage garage = Garage(
+          id: int.parse(g['id']),
+          name: g['name'],
+          userId: int.parse(g['user_id']),
+          status: g['status'],
+          dateTime: g['parking_date'],
+        );
+        garages.add(garage);
+      }
+      return garages;
+    }
+    return null;
+  }
+
+  static Future<List<Garage>?> closeGarage(int garageId) async {
+    NetworkHelper networkHelper = NetworkHelper('/api/close_garage', {
+      'garageId': garageId.toString(),
+    });
+    List<Garage> garages = [];
+    var json = await networkHelper.getData();
+    if (json != null && json['error'] == false) {
+      for (Map g in json['garages']) {
+        Garage garage = Garage(
+          id: int.parse(g['id']),
+          name: g['name'],
+          userId: int.parse(g['user_id']),
+          status: g['status'],
+          dateTime: g['parking_date'],
+        );
+        garages.add(garage);
+      }
+      return garages;
+    }
+    return null;
+  }
 }
