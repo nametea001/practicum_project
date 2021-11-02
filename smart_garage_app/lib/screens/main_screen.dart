@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_garage_app/models/garage.dart';
 import 'package:smart_garage_app/models/user.dart';
+import 'package:barcode_scan2/barcode_scan2.dart';
 
 class MainScreen extends StatefulWidget {
   final User? user;
@@ -148,12 +149,14 @@ class _MainScreenState extends State<MainScreen> {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const [
-                Padding(
-                  padding: EdgeInsets.all(15.0),
-                  child: Icon(Icons.garage_sharp,
-                      size: 140.0, color: Colors.orange),
-                ),
+              children: [
+                IconButton(
+                    onPressed: () async {
+                      var result = await BarcodeScanner.scan();
+                    },
+                    icon: Icon(Icons.garage_sharp,
+                        size: 140.0, color: Colors.orange)),
+                Icon(null)
               ],
             ),
             Expanded(
