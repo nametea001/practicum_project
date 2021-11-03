@@ -1,7 +1,8 @@
 import 'dart:convert';
 
+import 'package:packing/services/networking.dart';
+
 // import 'package:packing/models/user.dart';
-import 'package:smart_garage_app/services/networking.dart';
 
 class Garage {
   final int? id;

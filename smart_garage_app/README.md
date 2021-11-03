@@ -1,4 +1,4 @@
-# smart_garage_app
+# packing
 
 A new Flutter project.
 

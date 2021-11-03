@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:smart_garage_app/models/garage.dart';
-import 'package:smart_garage_app/models/user.dart';
-
-import 'package:smart_garage_app/screens/detail_screen.dart';
+import 'package:packing/models/garage.dart';
+import 'package:packing/models/user.dart';
+import 'package:packing/screens/detail_screen.dart';
+import 'package:barcode_scan2/barcode_scan2.dart';
 
 class MainScreen extends StatefulWidget {
   final User? user;
@@ -91,10 +91,7 @@ class _MainScreenState extends State<MainScreen> {
           IconButton(
             icon: Icon(Icons.camera_alt_outlined),
             onPressed: () async {
-              // var result = await BarcodeScanner.scan();
-              // if (result.rawContent == "SMART_GARAGE_1") {
-              //   print("GG");
-              // }
+              var result = await BarcodeScanner.scan();
             },
           )
         ],

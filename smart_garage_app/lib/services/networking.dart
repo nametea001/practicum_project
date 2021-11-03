@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:smart_garage_app/global.dart' as globals;
+import 'package:packing/global.dart' as globals;
 
 class NetworkHelper {
   // final String server = "192.168.31.212:8000";

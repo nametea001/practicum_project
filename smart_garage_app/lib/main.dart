@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smart_garage_app/screens/login_screen.dart';
+import 'package:packing/screens/login_screen.dart';
 
 void main() {
   runApp(MyApp());

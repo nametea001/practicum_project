@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:smart_garage_app/services/networking.dart';
+import 'package:packing/services/networking.dart';
 
 class User {
   final int? userID;

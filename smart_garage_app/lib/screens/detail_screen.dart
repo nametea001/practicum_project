@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:smart_garage_app/models/garage.dart';
-import 'package:smart_garage_app/models/user.dart';
+import 'package:packing/models/garage.dart';
+import 'package:packing/models/user.dart';
 
 class DetailScreen extends StatefulWidget {
   final User? user;

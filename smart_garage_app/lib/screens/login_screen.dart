@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:smart_garage_app/models/user.dart';
-import 'package:smart_garage_app/models/garage.dart';
-import 'package:smart_garage_app/global.dart' as globals;
-import 'package:smart_garage_app/services/config_system.dart';
-import 'package:smart_garage_app/constants.dart';
+
+import 'package:packing/models/user.dart';
+import 'package:packing/models/garage.dart';
+import 'package:packing/global.dart' as globals;
+import 'package:packing/services/config_system.dart';
+import 'package:packing/constants.dart';
 
 import 'main_screen.dart';
 
