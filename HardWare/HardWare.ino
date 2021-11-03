@@ -13,6 +13,8 @@
 #define RQ_SET_SERVO_2_CLOSE    3
 #define RQ_SET_READ_ULTRA_1     4
 #define RQ_SET_READ_ULTRA_2     5
+#define RQ_SET_READ_ULTRA_3     6
+#define RQ_SET_READ_ULTRA_4     7
 
 LiquidCrystal_I2C lcd(0x27, 20, 4); // set the LCD address to 0x27 for a 16 chars and 2 line display
 
@@ -21,6 +23,10 @@ const int echo1Pin = PIN_PC0;
 const int trig1Pin = PIN_PC1;
 const int echo2Pin = PIN_PC2;
 const int trig2Pin = PIN_PC3;
+const int echo3Pin = PIN_PD0;
+const int trig3Pin = PIN_PD1;
+const int echo4Pin = PIN_PD5;
+const int trig4Pin = PIN_PD6;
 
 float reading;
 int distance;
@@ -34,7 +40,7 @@ void set_servo_open_1()
 void set_servo_close_1()
 {
   myservo.attach(PIN_PB1);
-  myservo.write(0);
+  myservo.write(180);
 }
 
 void set_servo_open_2()
@@ -88,11 +94,51 @@ float ulta_2() {
     }
 }
 
+float ulta_3() {
+  pinMode(trig3Pin, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echo3Pin, INPUT); // Sets the echoPin as an Input
+  digitalWrite(trig3Pin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trig3Pin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trig3Pin, LOW);
+  reading = pulseIn(echo3Pin, HIGH);
+  digitalWrite(echo3Pin, LOW);
+  distance = reading / 29 / 2;
+  if(distance <= 200){
+    return distance;
+    }
+  else{
+    return 0;
+    }
+}
+
+float ulta_4() {
+  pinMode(trig4Pin, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echo4Pin, INPUT); // Sets the echoPin as an Input
+  digitalWrite(trig4Pin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trig4Pin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trig4Pin, LOW);
+  reading = pulseIn(echo4Pin, HIGH);
+  digitalWrite(echo4Pin, LOW);
+  distance = reading / 29 / 2;
+  if(distance <= 200){
+    return distance;
+    }
+  else{
+    return 0;
+    }
+}
+
 usbMsgLen_t usbFunctionSetup(uint8_t data[8])
 {
   usbRequest_t *rq = (usbRequest_t*)data;
   static uint16_t distance1;
   static uint16_t distance2;
+  static uint16_t distance3;
+  static uint16_t distance4;
 
   if (rq->bRequest == RQ_SET_SERVO_1_OPEN)
   {
@@ -126,6 +172,18 @@ usbMsgLen_t usbFunctionSetup(uint8_t data[8])
     distance2 = ulta_2();
     usbMsgPtr = (uint8_t*) &distance2;
     return sizeof(distance2);
+  }
+   else if (rq->bRequest == RQ_SET_READ_ULTRA_3)
+  {
+    distance3 = ulta_3();
+    usbMsgPtr = (uint8_t*) &distance3;
+    return sizeof(distance3);
+  }
+   else if (rq->bRequest == RQ_SET_READ_ULTRA_4)
+  {
+    distance4 = ulta_4();
+    usbMsgPtr = (uint8_t*) &distance4;
+    return sizeof(distance4);
   }
   return 0;
 }
