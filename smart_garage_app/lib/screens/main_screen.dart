@@ -21,6 +21,8 @@ class _MainScreenState extends State<MainScreen> {
   User user = User();
   int i = 0;
 
+  TextEditingController controllerQty = TextEditingController();
+
   listColor(num) {
     if (num % 2 == 0) {
       var color = Color.fromRGBO(235, 235, 239, 1);
@@ -60,14 +62,127 @@ class _MainScreenState extends State<MainScreen> {
             ],
           ),
           onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => DetailScreen(
-                          user: user,
-                          garageId: garage.id,
-                          garageName: garage.name,
-                        )));
+            // Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //         builder: (context) => DetailScreen(
+            //               user: user,
+            //               garageId: garage.id,
+            //               garageName: garage.name,
+            //             )));
+
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: Text("${garage.name}"),
+                content: Text('Do you want open the door '),
+                actions: <Widget>[
+                  TextButton(
+                    child: Text('Yes'),
+                    style: TextButton.styleFrom(
+                      primary: Colors.white,
+                      backgroundColor: Colors.green,
+                    ),
+                    onPressed: () async {
+                      await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return StatefulBuilder(builder:
+                              (BuildContext context, StateSetter setState) {
+                            return AlertDialog(
+                              title: Text("Confirm"),
+                              content: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text("Enter Password"),
+                                    ],
+                                  ),
+                                  Row(children: [
+                                    Text("Password: "),
+                                    Expanded(
+                                      child: TextFormField(
+                                        controller: controllerQty,
+                                        decoration: InputDecoration(
+                                            hintText: "Password"),
+                                      ),
+                                    ),
+                                  ]),
+                                ],
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () async {
+                                    var password = controllerQty.text;
+                                    var check = await User.checkOpenGarage(
+                                        user.userID!, password);
+                                    if (check != null) {
+                                      await Garage.openGarage(garage.id!);
+                                    } else {
+                                      await showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            AlertDialog(
+                                          title: Text('Error'),
+                                          content: Text('Incorrect password'),
+                                          actions: <Widget>[
+                                            TextButton(
+                                                child: Text('Close'),
+                                                style: TextButton.styleFrom(
+                                                  primary: Colors.white,
+                                                  backgroundColor:
+                                                      Colors.blueGrey,
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                }),
+                                          ],
+                                        ),
+                                      );
+                                      controllerQty.text = "";
+                                    }
+                                  },
+                                  child: Text('Yes'),
+                                  style: TextButton.styleFrom(
+                                    primary: Colors.white,
+                                    backgroundColor: Colors.red,
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    controllerQty.text = "";
+                                  },
+                                  child: Text("No"),
+                                  style: TextButton.styleFrom(
+                                    primary: Colors.white,
+                                    backgroundColor: Colors.blue[400],
+                                  ),
+                                ),
+                              ],
+                            );
+                          });
+                        },
+                      );
+                      updateUI();
+                      Navigator.pop(context);
+                    },
+                  ),
+                  TextButton(
+                      child: Text('No'),
+                      style: TextButton.styleFrom(
+                        primary: Colors.white,
+                        backgroundColor: Colors.red,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      }),
+                ],
+              ),
+            );
           });
       list.add(l);
     }

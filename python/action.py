@@ -1,8 +1,9 @@
-from sql import login_user, get_garage_from_userid, get_garage_from_id, update_garage
+from sql import login_user, get_garage_from_userid, get_garage_from_id, update_garage, check_open
 
 from practicum import find_mcu_boards, McuBoard, PeriBoard
 
 import multiprocessing as mp
+import time
 
 
 # ------------------ get data ------------------------------
@@ -24,6 +25,10 @@ def update_garage_action(garageId, status):
     data = get_garage_from_id(garageId)
     return data
 
+def check_garage_open_action(userId, password):
+    data = check_open(userId,password)
+    return data
+
 
 # ---------------------- check scan -----------
 def check_garage(garageId):
@@ -42,9 +47,33 @@ def get_garage_from_id_action(garageId):
 def open_garage(garageId):
     if(garageId == "1"):
         peri.set_servo_1_open()
-        return 0
+        time.sleep(5)
+        d1 = check_distance_1()
+        time.sleep(0.2)
+        d3 = check_distance_3()
+        time.sleep(0.2)
+        if(d1 <=3 and d3 <=4):
+            peri.set_servo_1_close()
+        d1 = check_distance_1()
+        d3 = check_distance_3()
+        if(d1 >=6 and d3 >=5):
+            peri.set_servo_1_close()
+
     elif(garageId == "2"):
         peri.set_servo_2_open()
+        time.sleep(5)
+        d2 = check_distance_2()
+        time.sleep(0.2)
+        d4 = check_distance_4()
+        time.sleep(0.2)
+        if(d2 <=3 and d4 <=4):
+            peri.set_servo_1_close()
+        d2 = check_distance_2()
+        d4 = check_distance_4()
+        if(d2 >=6 and d4 >=5):
+            peri.set_servo_2_close()
+            return 0
+        
         return 0
 # ------------- Close garage -----------
 
@@ -52,14 +81,35 @@ def open_garage(garageId):
 def close_garage(garageId):
     if(garageId == "1"):
         peri.set_servo_1_close()
-        return 0
+        d1 = check_distance_1()
+        time.sleep(0.5)
+        d3 = check_distance_3()
+        
+
     elif(garageId == "2"):
         peri.set_servo_2_close()
+        d2 = check_distance_2()
+        time.sleep(0.5)
+        d4 = check_distance_4()
+            
         return 0
+    
 
 def check_distance_1():
     distance = peri.read_distance_1()
-    return distance/10
+    return distance
+
+def check_distance_2():
+    distance = peri.read_distance_2()
+    return distance  
+
+def check_distance_3():
+    distance = peri.read_distance_3()
+    return distance
+
+def check_distance_4():
+    distance = peri.read_distance_4()
+    return distance        
 
 
 

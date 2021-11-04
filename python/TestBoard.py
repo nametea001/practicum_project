@@ -31,16 +31,16 @@ peri = PeriBoard(mcu)
     
 y = peri.set_servo_2_open()
 print(y)
-time.sleep(6)
+time.sleep(5)
 
 d2 = peri.read_distance_2()
 print(d2)
 time.sleep(0.5)
 d4 = peri.read_distance_4()
 print(d4)
-
 if(d2 <= 3 and d4 <=4):
-    x = peri.set_servo_2_close()
+    y = peri.set_servo_2_close()
+
 
 d2 = peri.read_distance_2()
 print(d2)
@@ -49,4 +49,4 @@ d3 = peri.read_distance_4()
 print(d4)   
 
 if(d2 >= 6 and d4 >= 5):
-    x = peri.set_servo_2_close()
+    y = peri.set_servo_2_close()
